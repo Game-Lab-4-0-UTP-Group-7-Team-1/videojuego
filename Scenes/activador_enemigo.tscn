@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4cg1fjvg5hee"]
+
+[ext_resource type="Script" uid="uid://bd5sjbngo7eua" path="res://scripts/activador_enemigo.gd" id="1_oeox7"]
+
+[sub_resource type="PackedScene" id="PackedScene_auwsv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_auwsv"]
+size = Vector2(180, 180)
+
+[node name="ActivadorEnemigo" type="Area2D"]
+script = ExtResource("1_oeox7")
+enemigo_escena = SubResource("PackedScene_auwsv")
+posicion_spawn = Vector2(2046, 257)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 20)
+shape = SubResource("RectangleShape2D_auwsv")

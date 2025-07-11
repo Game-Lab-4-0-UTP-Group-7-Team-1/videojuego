@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3 uid="uid://q8smouj1jy5n"]
+
+[ext_resource type="Script" uid="uid://cov8mo40edcqu" path="res://scripts/coin_2d.gd" id="1_ma35y"]
+[ext_resource type="Texture2D" uid="uid://ddh3xwn20up7b" path="res://assets2/letras/alphabet-7111846_1280.png" id="2_sniv0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hdhq2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuguu"]
+atlas = ExtResource("2_sniv0")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3h6fk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuguu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_g537i"]
+resource_name = "Coin"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.200319, 0.401544, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_h2p6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ffmqm"]
+_data = {
+&"Coin": SubResource("Animation_g537i"),
+&"RESET": SubResource("Animation_h2p6v")
+}
+
+[node name="Letras" type="Node2D"]
+
+[node name="Coin2D" type="Area2D" parent="."]
+script = ExtResource("1_ma35y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin2D"]
+position = Vector2(2, -1)
+shape = SubResource("CircleShape2D_hdhq2")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Coin2D"]
+position = Vector2(1.5, -1)
+scale = Vector2(0.14375, 0.125)
+sprite_frames = SubResource("SpriteFrames_3h6fk")
+animation = &"idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Coin2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_ffmqm")
+}
+autoplay = "Coin"
+
+[connection signal="body_entered" from="Coin2D" to="Coin2D" method="_on_body_entered"]
